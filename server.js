@@ -73,9 +73,73 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
-                await getname(body);
+                function getname() {
+                  return new Promise((resolve) => {
+                    try {
+                      let name = body
+                        .match(
+                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                        )[1]
+                        .replace(/\s\-.+\s\s/g, "");
+
+                      resolve(
+                        sendMessage(
+                          senderId,
+                          `Thời khoá biểu của ${name} trong tuần`
+                        )
+                      );
+                    } catch {
+                      resolve(
+                        sendMessage(
+                          senderId,
+                          `Không tìm thấy thông tin sinh viên !`
+                        )
+                      );
+                    }
+                  });
+                }
+
+                function getTKB() {
+                  return new Promise((resolve) => {
+                    var i = 0;
+                    function myLoop() {
+                      setTimeout(function () {
+                        try {
+                          let ob0 = body
+                            .match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                            )
+                            [i].match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                            )[1]
+                            .replace(/\'/g, "")
+                            .replace(/\,/g, ", ");
+                          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
+                          let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
+                          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
+                          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
+                          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
+                          settime(tietbd, tietkt);
+                          resolve(
+                            sendMessage(
+                              senderId,
+                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                            )
+                          );
+                        } catch {}
+                        i++;
+                        if (i < 7) {
+                          myLoop();
+                        }
+                      }, 1000);
+                    }
+                    myLoop();
+                    // }
+                  });
+                }
+                await getname();
                 await delay(500);
-                await getTKB(body);
+                await getTKB();
               }
             );
           } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
@@ -152,7 +216,6 @@ app.post("/webhook", function (req, res) {
             message.message.text.match(/tkb\sall$/i) &&
             senderId == 3601822406563650
           ) {
-            // var mssv = message.message.text.match(/[0-9]*$/);
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
@@ -164,7 +227,7 @@ app.post("/webhook", function (req, res) {
                           /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                         )[1]
                         .replace(/\s\-.+\s\s/g, "");
-                      // resolve(console.log(`Thời khoá biểu của ${name}`));
+
                       resolve(
                         sendMessage(
                           senderId,
@@ -230,7 +293,6 @@ app.post("/webhook", function (req, res) {
             message.message.text.match(/tkb$/i) &&
             senderId == 3601822406563650
           ) {
-            // var mssv = message.message.text.match(/[0-9]*$/);
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
@@ -241,7 +303,7 @@ app.post("/webhook", function (req, res) {
                         /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
-                    // resolve(console.log(`Thời khoá biểu của ${name}`));
+
                     resolve(
                       sendMessage(
                         senderId,
@@ -342,71 +404,6 @@ function sendMessage(senderId, message) {
   });
 }
 
-function getname(body) {
-  return new Promise((resolve) => {
-    try {
-      let name = body
-        .match(
-          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
-        )[1]
-        .replace(/\s\-.+\s\s/g, "");
-      // resolve(console.log(`Thời khoá biểu của ${name}`));
-      resolve(
-        sendMessage(
-          senderId,
-          `Thời khoá biểu của ${name} trong tuần`
-        )
-      );
-    } catch {
-      resolve(
-        sendMessage(
-          senderId,
-          `Không tìm thấy thông tin sinh viên !`
-        )
-      );
-    }
-  });
-}
-
-function getTKB(body) {
-  return new Promise((resolve) => {
-    var i = 0;
-    function myLoop() {
-      //  create a loop function
-      setTimeout(function () {
-        try {
-          let ob0 = body
-            .match(
-              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-            )
-            [i].match(
-              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-            )[1]
-            .replace(/\'/g, "")
-            .replace(/\,/g, ", ");
-          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-          let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-          settime(tietbd, tietkt);
-          resolve(
-            sendMessage(
-              senderId,
-              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-            )
-          );
-        } catch {}
-        i++;
-        if (i < 7) {
-          myLoop();
-        }
-      }, 1000);
-    }
-    myLoop();
-    // }
-  });
-}
 app.set("port", process.env.PORT);
 app.set("ip", process.env.IP);
 server.listen(app.get("port"), app.get("ip"), function () {
