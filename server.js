@@ -147,14 +147,14 @@ app.post("/webhook", function (req, res) {
                         if (i < 7) {
                           myLoop();
                         }
-                      }, 1000);
+                      }, 500);
                     }
                     myLoop();
                     // }
                   });
                 }
                 await getname();
-                await delay(100);
+                await delay(500);
                 await getTKB();
               }
             );
@@ -238,7 +238,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(100);
+                await delay(500);
                 await getTKB();
               }
             );
@@ -323,14 +323,14 @@ app.post("/webhook", function (req, res) {
                         if (i < 7) {
                           myLoop();
                         }
-                      }, 1000);
+                      }, 500);
                     }
                     myLoop();
                     // }
                   });
                 }
                 await getname();
-                await delay(100);
+                await delay(500);
                 await getTKB();
               }
             );
@@ -409,7 +409,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(100);
+                await delay(500);
                 await getTKB();
               }
             );
