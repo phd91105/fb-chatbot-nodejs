@@ -154,7 +154,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(1000);
+                //await delay(1000);
                 await getTKB();
               }
             );
@@ -238,7 +238,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(1000);
+                //await delay(1000);
                 await getTKB();
               }
             );
@@ -330,7 +330,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(1000);
+                //await delay(1000);
                 await getTKB();
               }
             );
@@ -409,7 +409,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
                 await getname();
-                await delay(1000);
+                //await delay(1000);
                 await getTKB();
               }
             );
