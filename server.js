@@ -6,8 +6,11 @@ var bodyParser = require("body-parser");
 var express = require("express");
 var request = require("request");
 var router = express();
-
 var app = express();
+
+const periodBoard = require("./periodBoard");
+const { timeEnd } = require("console");
+
 app.use(logger("dev"));
 app.use(bodyParser.json());
 app.use(
@@ -40,13 +43,24 @@ function regexDay(string) {
   else if (d == "Thứ Bảy") return 6;
   else if (d == "Chủ Nhật") return 0;
 }
-function setCa(tdb) {
-  if (tdb <= 3) return `Ca 1 tiết ${tdb}`;
-  else if (tdb > 3 && tdb <= 6) return `Ca 2 tiết ${tdb}`;
-  else if (tdb > 6 && tdb <= 9) return `Ca 3 tiết ${tdb}`;
-  else if (tdb > 9 && tdb <= 12) return `Ca 4 tiết ${tdb}`;
-  else if (tdb > 12 && tdb <= 15) return `Ca 5 tiết ${tdb}`;
+
+// function setCa(tdb) {
+//   if (tdb <= 3) return `Ca 1 tiết ${tdb}`;
+//   else if (tdb > 3 && tdb <= 6) return `Ca 2 tiết ${tdb}`;
+//   else if (tdb > 6 && tdb <= 9) return `Ca 3 tiết ${tdb}`;
+//   else if (tdb > 9 && tdb <= 12) return `Ca 4 tiết ${tdb}`;
+//   else if (tdb > 12 && tdb <= 15) return `Ca 5 tiết ${tdb}`;
+// }
+
+function settime(tbd, tkt) {
+  return (
+    (timestart = `${periodBoard[tbd].start.hour}h${periodBoard[tbd].start.minute}`),
+    (timeend = `${periodBoard[tbd + tkt - 1].end.hour}h${
+      periodBoard[tbd + tkt - 1].end.minute
+    }`)
+  );
 }
+
 // Xử lý khi có người nhắn tin cho bot
 app.post("/webhook", function (req, res) {
   var entries = req.body.entry;
@@ -117,29 +131,30 @@ app.post("/webhook", function (req, res) {
                             .replace(/\'/g, "")
                             .replace(/\,/g, ", ");
                           let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
+                          let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
                           let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                           let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                           let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                          let ca = setCa(tietbd);
+                          settime(tietbd,tietkt);
                           if (tietbd < 7)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                         } catch {}
@@ -206,27 +221,27 @@ app.post("/webhook", function (req, res) {
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        let ca = setCa(tietbd);
+                        settime(tietbd,tietkt);
                         if (today.getDay() == regexDay(ob0)) {
                           if (tietbd < 7)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
@@ -296,26 +311,26 @@ app.post("/webhook", function (req, res) {
                           let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                           let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                           let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                          let ca = setCa(tietbd);
+                          settime(tietbd,tietkt);
                           if (tietbd < 7)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                         } catch {}
@@ -377,27 +392,27 @@ app.post("/webhook", function (req, res) {
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        let ca = setCa(tietbd);
+                        settime(tietbd,tietkt);
                         if (today.getDay() == regexDay(ob0)) {
                           if (tietbd < 7)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
