@@ -248,7 +248,7 @@ app.post("/webhook", function (req, res) {
           ) {
             // var mssv = message.message.text.match(/[0-9]*$/);
             request(
-              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
+              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
                 function getname() {
                   return new Promise((resolve) => {
