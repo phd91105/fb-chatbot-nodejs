@@ -83,7 +83,7 @@ app.post("/webhook", function (req, res) {
                   return new Promise((resolve) => {
                     let name = body
                       .match(
-                        /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
+                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
                     // resolve(console.log(`Thời khoá biểu của ${name}`));
@@ -152,7 +152,7 @@ app.post("/webhook", function (req, res) {
                   return new Promise((resolve) => {
                     let name = body
                       .match(
-                        /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
+                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
                     // resolve(console.log(`Thời khoá biểu của ${name}`));
@@ -230,7 +230,7 @@ app.post("/webhook", function (req, res) {
                   return new Promise((resolve) => {
                     let name = body
                       .match(
-                        /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
+                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
                     // resolve(console.log(`Thời khoá biểu của ${name}`));
@@ -302,7 +302,7 @@ app.post("/webhook", function (req, res) {
                   return new Promise((resolve) => {
                     let name = body
                       .match(
-                        /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
+                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
                     // resolve(console.log(`Thời khoá biểu của ${name}`));
