@@ -9,7 +9,6 @@ var router = express();
 var app = express();
 
 const periodBoard = require("./periodBoard");
-const { timeEnd } = require("console");
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
