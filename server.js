@@ -36,7 +36,16 @@ function regexDay(string) {
   d = string.match(/((Thứ|Chủ)[^,]+)/i)[0];
   return dayNum[d];
 }
-
+function regExString(ob0) {
+  return (
+    (tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1])),
+    (tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2])),
+    (dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0]),
+    (subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0]),
+    (room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0]),
+    settime(tietbd, tietkt)
+  );
+}
 function settime(tbd, tkt) {
   return (
     (timestart = `${periodBoard[tbd].start.hour}h${periodBoard[tbd].start.minute}`),
@@ -114,12 +123,12 @@ app.post("/webhook", function (req, res) {
                             )[1]
                             .replace(/\'/g, "")
                             .replace(/\,/g, ", ");
-                          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                          let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-                          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                          settime(tietbd, tietkt);
+                          regExString(ob0);
+                          // let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
+                          // let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
+                          // let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
+                          // let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
+                          // let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
                           resolve(
                             sendMessage(
                               senderId,
