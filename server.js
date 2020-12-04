@@ -8,7 +8,7 @@ var request = require("request");
 var router = express();
 var app = express();
 
-const periodBoard = require("./periodBoard");
+const periodBoard = require("./modules/periodBoard");
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
