@@ -66,7 +66,7 @@ app.post("/webhook", function (req, res) {
               var stringbody = JSON.parse(response.body);
               sendMessage(
                 senderId,
-                `*Quốc gia*: ${stringbody.country}\n*Tổng*: ${stringbody.cases}\n*Hôm nay*: ${stringbody.todayCases}\n*Hồi phục*: ${stringbody.recovered}\n*Đang điều trị*: ${stringbody.active}\n*Tử vong*: ${stringbody.deaths}`
+                `Quốc gia: ${stringbody.country}\nTổng: ${stringbody.cases}\nHôm nay: ${stringbody.todayCases}\nHồi phục: ${stringbody.recovered}\nĐang điều trị: ${stringbody.active}\nTử vong: ${stringbody.deaths}`
               );
             });
           } else if (
@@ -86,11 +86,11 @@ app.post("/webhook", function (req, res) {
                         /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
-                    // resolve(console.log(`Thời khoá biểu của *${name}*`));
+                    // resolve(console.log(`Thời khoá biểu của ${name}`));
                     resolve(
                       sendMessage(
                         senderId,
-                        `Thời khoá biểu của *${name}* trong tuần`
+                        `Thời khoá biểu của ${name} trong tuần`
                       )
                     );
                   });
@@ -117,21 +117,21 @@ app.post("/webhook", function (req, res) {
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                         else if (tietbd >= 7 && tietbd < 13)
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                         else
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (tối) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                       } catch {}
@@ -155,11 +155,11 @@ app.post("/webhook", function (req, res) {
                         /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
-                    // resolve(console.log(`Thời khoá biểu của *${name}*`));
+                    // resolve(console.log(`Thời khoá biểu của ${name}`));
                     resolve(
                       sendMessage(
                         senderId,
-                        `Thời khoá biểu của *${name}* hôm nay`
+                        `Thời khoá biểu của ${name} hôm nay`
                       )
                     );
                   });
@@ -188,21 +188,21 @@ app.post("/webhook", function (req, res) {
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (tối) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
@@ -233,11 +233,11 @@ app.post("/webhook", function (req, res) {
                         /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
-                    // resolve(console.log(`Thời khoá biểu của *${name}*`));
+                    // resolve(console.log(`Thời khoá biểu của ${name}`));
                     resolve(
                       sendMessage(
                         senderId,
-                        `Thời khoá biểu của *${name}* trong tuần`
+                        `Thời khoá biểu của ${name} trong tuần`
                       )
                     );
                   });
@@ -264,21 +264,21 @@ app.post("/webhook", function (req, res) {
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                         else if (tietbd >= 7 && tietbd < 13)
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                         else
                           resolve(
                             sendMessage(
                               senderId,
-                              `*${dayy}* (tối) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
                             )
                           );
                       } catch {}
@@ -305,11 +305,11 @@ app.post("/webhook", function (req, res) {
                         /<span id="ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV".+">([\s\S]*?)<\/font>/
                       )[1]
                       .replace(/\s\-.+\s\s/g, "");
-                    // resolve(console.log(`Thời khoá biểu của *${name}*`));
+                    // resolve(console.log(`Thời khoá biểu của ${name}`));
                     resolve(
                       sendMessage(
                         senderId,
-                        `Thời khoá biểu của *${name}* hôm nay`
+                        `Thời khoá biểu của ${name} hôm nay`
                       )
                     );
                   });
@@ -338,21 +338,21 @@ app.post("/webhook", function (req, res) {
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `*${dayy}* (tối) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
@@ -371,7 +371,7 @@ app.post("/webhook", function (req, res) {
           } else
             sendMessage(
               senderId,
-              `*Covid-19*: ncov\n*Thời khoá biểu*: tkb MA_SO_SV *hoặc* tkb all MA_SO_SV`
+              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
             );
         } catch {}
     }
