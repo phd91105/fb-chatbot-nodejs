@@ -102,103 +102,25 @@ app.post("/webhook", function (req, res) {
 
                 function getTKB() {
                   return new Promise((resolve) => {
-                    for (i = 0; i < 7; i++) {
-                      try {
-                        let ob0 = body
-                          .match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                          )
-                          [i].match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                          )[1]
-                          .replace(/\'/g, "")
-                          .replace(/\,/g, ", ");
-                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                        let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                        let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                        let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        let ca = setCa(tietbd);
-                        if (tietbd < 7)
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                    var i = 0;
+                    function myLoop() {
+                      //  create a loop function
+                      setTimeout(function () {
+                        try {
+                          let ob0 = body
+                            .match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                             )
-                          );
-                        else if (tietbd >= 7 && tietbd < 13)
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                        else
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                      } catch {}
-                    }
-                  });
-                }
-                await getname();
-                await delay(500);
-                await getTKB();
-              }
-            );
-          } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
-            var mssv = message.message.text.match(/[0-9]*$/);
-            request(
-              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
-              async function (err, response, body) {
-                function getname() {
-                  return new Promise((resolve) => {
-                    try {
-                      let name = body
-                        .match(
-                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
-                        )[1]
-                        .replace(/\s\-.+\s\s/g, "");
-                      // resolve(console.log(`Thời khoá biểu của ${name}`));
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Thời khoá biểu của ${name} hôm nay`
-                        )
-                      );
-                    } catch {
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Không tìm thấy thông tin sinh viên !`
-                        )
-                      );
-                    }
-                  });
-                }
-
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var s = 0;
-                    for (i = 0; i < 7; i++) {
-                      try {
-                        let ob0 = body
-                          .match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                          )
-                          [i].match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                          )[1]
-                          .replace(/\'/g, "")
-                          .replace(/\,/g, ", ");
-                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                        let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                        let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                        let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        let ca = setCa(tietbd);
-                        if (today.getDay() == regexDay(ob0)) {
+                            [i].match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                            )[1]
+                            .replace(/\'/g, "")
+                            .replace(/\,/g, ", ");
+                          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
+                          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
+                          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
+                          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
+                          let ca = setCa(tietbd);
                           if (tietbd < 7)
                             resolve(
                               sendMessage(
@@ -220,12 +142,103 @@ app.post("/webhook", function (req, res) {
                                 `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
-                          s++;
+                        } catch {}
+                        i++;
+                        if (i < 7) {
+                          myLoop();
                         }
-                      } catch {}
+                      }, 500);
                     }
-                    if (s == 0)
-                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                    myLoop();
+                    // }
+                  });
+                }
+                await getname();
+                await delay(500);
+                await getTKB();
+              }
+            );
+          } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
+            var mssv = message.message.text.match(/[0-9]*$/);
+            request(
+              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
+              async function (err, response, body) {
+                function getname() {
+                  return new Promise((resolve) => {
+                    try {
+                      let name = body
+                        .match(
+                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                        )[1]
+                        .replace(/\s\-.+\s\s/g, "");
+                      resolve(
+                        sendMessage(
+                          senderId,
+                          `Thời khoá biểu của ${name} hôm nay`
+                        )
+                      );
+                    } catch {
+                      resolve(
+                        sendMessage(
+                          senderId,
+                          `Không tìm thấy thông tin sinh viên !`
+                        )
+                      );
+                    }
+                  });
+                }
+
+                function getTKB() {
+                  return new Promise((resolve) => {
+                    var i = 0;
+                    function myLoop() {
+                      //  create a loop function
+                      setTimeout(function () {
+                        try {
+                          let ob0 = body
+                            .match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                            )
+                            [i].match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                            )[1]
+                            .replace(/\'/g, "")
+                            .replace(/\,/g, ", ");
+                          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
+                          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
+                          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
+                          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
+                          let ca = setCa(tietbd);
+                          if (tietbd < 7)
+                            resolve(
+                              sendMessage(
+                                senderId,
+                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
+                              )
+                            );
+                          else if (tietbd >= 7 && tietbd < 13)
+                            resolve(
+                              sendMessage(
+                                senderId,
+                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
+                              )
+                            );
+                          else
+                            resolve(
+                              sendMessage(
+                                senderId,
+                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
+                              )
+                            );
+                        } catch {}
+                        i++;
+                        if (i < 7) {
+                          myLoop();
+                        }
+                      }, 500);
+                    }
+                    myLoop();
+                    // }
                   });
                 }
                 await getname();
