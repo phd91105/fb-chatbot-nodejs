@@ -109,7 +109,7 @@ app.post("/webhook", function (req, res) {
                             /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                           )
                           [i].match(
-                            /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
                           .replace(/\'/g, "")
                           .replace(/\,/g, ", ");
@@ -189,7 +189,7 @@ app.post("/webhook", function (req, res) {
                             /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                           )
                           [i].match(
-                            /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
                           .replace(/\'/g, "")
                           .replace(/\,/g, ", ");
@@ -267,7 +267,7 @@ app.post("/webhook", function (req, res) {
                             /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                           )
                           [i].match(
-                            /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
                           .replace(/\'/g, "")
                           .replace(/\,/g, ", ");
@@ -341,7 +341,7 @@ app.post("/webhook", function (req, res) {
                             /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                           )
                           [i].match(
-                            /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
                           .replace(/\'/g, "")
                           .replace(/\,/g, ", ");
@@ -394,7 +394,7 @@ app.post("/webhook", function (req, res) {
             let text = message.message.text;
             let enc = encodeURI(text);
             request(
-              `https://simsimi.copcute.pw/api/?text=${enc}&lang=vi_VN`,
+              `https://simsimi.copcute.pw/api/?text=${enc}&lang=vi`,
               function (error, response, body) {
                 let trl = JSON.parse(body).success;
                 sendMessage(senderId, `${trl}`);
