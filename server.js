@@ -147,7 +147,7 @@ app.post("/webhook", function (req, res) {
                         if (i < 7) {
                           myLoop();
                         }
-                      }, 500);
+                      }, 1000);
                     }
                     myLoop();
                     // }
@@ -235,7 +235,7 @@ app.post("/webhook", function (req, res) {
                         if (i < 7) {
                           myLoop();
                         }
-                      }, 500);
+                      }, 1000);
                     }
                     myLoop();
                     // }
