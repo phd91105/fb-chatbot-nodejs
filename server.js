@@ -100,7 +100,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                async function getTKB() {
+                function getTKB() {
                   return new Promise((resolve) => {
                     for (i = 0; i < 7; i++) {
                       try {
@@ -179,7 +179,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                async function getTKB() {
+                function getTKB() {
                   return new Promise((resolve) => {
                     var s = 0;
                     for (i = 0; i < 7; i++) {
@@ -258,7 +258,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                async function getTKB() {
+                function getTKB() {
                   return new Promise((resolve) => {
                     for (i = 0; i < 7; i++) {
                       try {
@@ -331,7 +331,7 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                async function getTKB() {
+                function getTKB() {
                   return new Promise((resolve) => {
                     var s = 0;
                     for (i = 0; i < 7; i++) {
@@ -385,7 +385,12 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
-          } else {
+          } else if (message.message.text == `?`)
+            sendMessage(
+              senderId,
+              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
+            );
+          else {
             let text = message.message.text;
             let enc = encodeURI(text);
             request(
@@ -396,11 +401,6 @@ app.post("/webhook", function (req, res) {
               }
             );
           }
-          // else
-          //   sendMessage(
-          //     senderId,
-          //     `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
-          //   );
         } catch {}
     }
   }
