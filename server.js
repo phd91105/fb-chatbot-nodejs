@@ -107,8 +107,9 @@ app.post("/webhook", function (req, res) {
                           [i].match(
                             /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
-                          .replace(/\'/g, "");
-                        let tietbd = parseInt(ob0.match(/(\d)+[,]/g)[1]);
+                          .replace(/\'/g, "")
+                          .replace(/\,/g, ", ");
+                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
@@ -117,21 +118,21 @@ app.post("/webhook", function (req, res) {
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                         else if (tietbd >= 7 && tietbd < 13)
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                         else
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                       } catch {}
@@ -177,8 +178,9 @@ app.post("/webhook", function (req, res) {
                           [i].match(
                             /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
-                          .replace(/\'/g, "");
-                        let tietbd = parseInt(ob0.match(/(\d)+[,]/g)[1]);
+                          .replace(/\'/g, "")
+                          .replace(/\,/g, ", ");
+                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
@@ -188,21 +190,21 @@ app.post("/webhook", function (req, res) {
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
@@ -254,8 +256,9 @@ app.post("/webhook", function (req, res) {
                           [i].match(
                             /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
-                          .replace(/\'/g, "");
-                        let tietbd = parseInt(ob0.match(/(\d)+[,]/g)[1]);
+                          .replace(/\'/g, "")
+                          .replace(/\,/g, ", ");
+                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
@@ -264,21 +267,21 @@ app.post("/webhook", function (req, res) {
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                         else if (tietbd >= 7 && tietbd < 13)
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                         else
                           resolve(
                             sendMessage(
                               senderId,
-                              `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
+                              `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
                             )
                           );
                       } catch {}
@@ -327,8 +330,9 @@ app.post("/webhook", function (req, res) {
                           [i].match(
                             /<td\sonmouseover="ddrivetip\(([\s\S]*?)\,'','420'/
                           )[1]
-                          .replace(/\'/g, "");
-                        let tietbd = parseInt(ob0.match(/(\d)+[,]/g)[1]);
+                          .replace(/\'/g, "")
+                          .replace(/\,/g, ", ");
+                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
                         let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
                         let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
                         let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
@@ -338,21 +342,21 @@ app.post("/webhook", function (req, res) {
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (sáng) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (sáng) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           else if (tietbd >= 7 && tietbd < 13)
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (chiều) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (chiều) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           else
                             resolve(
                               sendMessage(
                                 senderId,
-                                `${dayy} (tối) ${ca}: ${subj}, Phòng: ${room}`
+                                `${dayy} (tối) ${ca}:${subj}, Phòng: ${room}`
                               )
                             );
                           s++;
