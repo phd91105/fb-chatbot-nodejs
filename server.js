@@ -385,11 +385,22 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
-          } else
-            sendMessage(
-              senderId,
-              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
+          } else {
+            let text = message.message.text;
+            let enc = encodeURI(text);
+            request(
+              `https://simsimi.copcute.pw/api/?text=${enc}&lang=vi_VN`,
+              function (error, response, body) {
+                let trl = JSON.parse(body).success;
+                sendMessage(senderId, `${trl}`);
+              }
             );
+          }
+          // else
+          //   sendMessage(
+          //     senderId,
+          //     `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
+          //   );
         } catch {}
     }
   }
