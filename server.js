@@ -106,7 +106,6 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
-                      break;
                     }
                   });
                 }
@@ -176,7 +175,6 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
-                      break;
                     }
                   });
                 }
@@ -205,10 +203,11 @@ app.post("/webhook", function (req, res) {
                           );
                           s++;
                         }
-                      } catch {}
+                      } catch {
+                        resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                      }
                     }
-                    if (s == 0)
-                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                    // if (s == 0)
                   });
                 }
 
