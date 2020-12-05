@@ -80,6 +80,7 @@ app.post("/webhook", function (req, res) {
               );
             });
           } else if (message.message.text.match(/tkb\sall\s\d{1,}/gi)) {
+            var val = true;
             var mssv = message.message.text.match(/[0-9]*$/);
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
@@ -106,6 +107,7 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
+                      val = false;
                     }
                   });
                 }
@@ -113,34 +115,35 @@ app.post("/webhook", function (req, res) {
                 function getTKB() {
                   return new Promise((resolve) => {
                     var i = 0;
-                    function myLoop() {
-                      setTimeout(function () {
-                        try {
-                          let ob0 = body
-                            .match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                            )
-                            [i].match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                            )[1]
-                            .replace(/\'/g, "")
-                            .replace(/\,/g, ", ");
-                          regExString(ob0);
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                        } catch {}
-                        i++;
-                        if (i < 7) {
-                          myLoop();
-                        }
-                      }, 1000);
+                    if (val == true) {
+                      function myLoop() {
+                        setTimeout(function () {
+                          try {
+                            let ob0 = body
+                              .match(
+                                /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                              )
+                              [i].match(
+                                /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                              )[1]
+                              .replace(/\'/g, "")
+                              .replace(/\,/g, ", ");
+                            regExString(ob0);
+                            resolve(
+                              sendMessage(
+                                senderId,
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                              )
+                            );
+                          } catch {}
+                          i++;
+                          if (i < 7) {
+                            myLoop();
+                          }
+                        }, 1000);
+                      }
+                      myLoop();
                     }
-                    myLoop();
-                    // }
                   });
                 }
 
@@ -183,8 +186,8 @@ app.post("/webhook", function (req, res) {
 
                 function getTKB() {
                   return new Promise((resolve) => {
+                    var s = 0;
                     if (val == true) {
-                      var s = 0;
                       for (i = 0; i < 7; i++) {
                         try {
                           let ob0 = body
@@ -226,31 +229,31 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
-                function getname() {
-                  return new Promise((resolve) => {
-                    try {
-                      let name = body
-                        .match(
-                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
-                        )[1]
-                        .replace(/\s\-.+\s\s/g, "");
+                // function getname() {
+                //   return new Promise((resolve) => {
+                //     try {
+                //       let name = body
+                //         .match(
+                //           /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                //         )[1]
+                //         .replace(/\s\-.+\s\s/g, "");
 
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Thời khoá biểu của ${name} trong tuần`
-                        )
-                      );
-                    } catch {
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Không tìm thấy thông tin sinh viên !`
-                        )
-                      );
-                    }
-                  });
-                }
+                //       resolve(
+                //         sendMessage(
+                //           senderId,
+                //           `Thời khoá biểu của ${name} trong tuần`
+                //         )
+                //       );
+                //     } catch {
+                //       resolve(
+                //         sendMessage(
+                //           senderId,
+                //           `Không tìm thấy thông tin sinh viên !`
+                //         )
+                //       );
+                //     }
+                //   });
+                // }
 
                 function getTKB() {
                   return new Promise((resolve) => {
@@ -287,8 +290,8 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                await getname();
-                await delay(500);
+                // await getname();
+                // await delay(500);
                 await getTKB();
               }
             );
@@ -299,22 +302,22 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
-                function getname() {
-                  return new Promise((resolve) => {
-                    let name = body
-                      .match(
-                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
-                      )[1]
-                      .replace(/\s\-.+\s\s/g, "");
+                // function getname() {
+                //   return new Promise((resolve) => {
+                //     let name = body
+                //       .match(
+                //         /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                //       )[1]
+                //       .replace(/\s\-.+\s\s/g, "");
 
-                    resolve(
-                      sendMessage(
-                        senderId,
-                        `Thời khoá biểu của ${name} hôm nay`
-                      )
-                    );
-                  });
-                }
+                //     resolve(
+                //       sendMessage(
+                //         senderId,
+                //         `Thời khoá biểu của ${name} hôm nay`
+                //       )
+                //     );
+                //   });
+                // }
 
                 function getTKB() {
                   return new Promise((resolve) => {
@@ -346,16 +349,15 @@ app.post("/webhook", function (req, res) {
                       resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
                   });
                 }
-
-                await getname();
-                await delay(500);
+                // await getname();
+                // await delay(500);
                 await getTKB();
               }
             );
           } else if (message.message.text == `?`)
             sendMessage(
               senderId,
-              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV hoặc tkb all MA_SO_SV`
+              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV\n\thoặc tkb all MA_SO_SV`
             );
           else {
             let text = message.message.text;
