@@ -57,37 +57,6 @@ function settime(tbd, tkt) {
   );
 }
 
-function getTKB(body) {
-  return new Promise((resolve) => {
-    var s = 0;
-    for (i = 0; i < 7; i++) {
-      try {
-        let ob0 = body
-          .match(
-            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-          )
-          [i].match(
-            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-          )[1]
-          .replace(/\'/g, "")
-          .replace(/\,/g, ", ");
-        regExString(ob0);
-        if (today.getDay() == regexDay(ob0)) {
-          resolve(
-            sendMessage(
-              senderId,
-              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-            )
-          );
-          s++;
-        }
-      } catch {}
-    }
-    if (s == 0)
-      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-  });
-}
-
 // Xử lý khi có người nhắn tin cho bot
 app.post("/webhook", function (req, res) {
   var entries = req.body.entry;
@@ -174,6 +143,7 @@ app.post("/webhook", function (req, res) {
                     // }
                   });
                 }
+
                 await getname();
                 await delay(500);
                 await getTKB();
@@ -239,6 +209,7 @@ app.post("/webhook", function (req, res) {
                       resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
                   });
                 }
+
                 await getname();
                 await delay(500);
                 await getTKB();
@@ -311,6 +282,7 @@ app.post("/webhook", function (req, res) {
                     // }
                   });
                 }
+                
                 await getname();
                 await delay(500);
                 await getTKB();
@@ -340,10 +312,40 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                
+                function getTKB() {
+                  return new Promise((resolve) => {
+                    var s = 0;
+                    for (i = 0; i < 7; i++) {
+                      try {
+                        let ob0 = body
+                          .match(
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                          )
+                          [i].match(
+                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                          )[1]
+                          .replace(/\'/g, "")
+                          .replace(/\,/g, ", ");
+                        regExString(ob0);
+                        if (today.getDay() == regexDay(ob0)) {
+                          resolve(
+                            sendMessage(
+                              senderId,
+                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                            )
+                          );
+                          s++;
+                        }
+                      } catch {}
+                    }
+                    if (s == 0)
+                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                  });
+                }
+
                 await getname();
                 await delay(500);
-                await getTKB(body);
+                await getTKB();
               }
             );
           } else if (message.message.text == `?`)
