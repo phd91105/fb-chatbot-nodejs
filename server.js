@@ -38,16 +38,16 @@ function regexDay(string) {
   return dayNum[d];
 }
 
-function timeConverter(UNIX_timestamp) {
-  let a = new Date(UNIX_timestamp);
-  let year = a.getFullYear(),
-    month = a.getMonth() + 1,
-    date = a.getDate(),
-    hour = a.getHours(),
-    min = a.getMinutes(),
-    time = `${date}/${month}/${year} ${hour}:${min}`;
-  return time;
-}
+// function timeConverter(UNIX_timestamp) {
+//   let a = new Date(UNIX_timestamp);
+//   let year = a.getFullYear(),
+//     month = a.getMonth() + 1,
+//     date = a.getDate(),
+//     hour = a.getHours(),
+//     min = a.getMinutes(),
+//     time = `${date}/${month}/${year} ${hour}:${min}`;
+//   return time;
+// }
 
 function regExString(ob0) {
   return (
@@ -392,7 +392,13 @@ app.post("/webhook", function (req, res) {
                 headers: {
                   Authorization: `Bearer ${accesstoken}`,
                 },
-                body: JSON.stringify({"userId":"0354353735","fromTime":0,"toTime":now,"limit":500,"cursor":""})
+                body: JSON.stringify({
+                  userId: "0354353735",
+                  fromTime: 0,
+                  toTime: now,
+                  limit: 500,
+                  cursor: "",
+                }),
               };
               request(options, function (error, response) {
                 let json = JSON.parse(response.body);
@@ -404,16 +410,13 @@ app.post("/webhook", function (req, res) {
                     let body = json["message"]["notifications"][i].body.match(
                       /\".+\"/
                     );
-                    let time = timeConverter(
-                      json["message"]["notifications"][i].time
-                    );
+                    // let time = timeConverter(
+                    //   json["message"]["notifications"][i].time
+                    // );
                     if (data != null && body != null) {
-                      sendMessage(
-                        senderId,
-                        `${time}: ${data[0]}\nNội dung: ${body}`
-                      );
+                      sendMessage(senderId, `${data[0]}\nNội dung: ${body}`);
                     } else if (data != null && body == null)
-                      sendMessage(senderId, `${time}: ${data[0]}`);
+                      sendMessage(senderId, `${data[0]}`);
                   } catch (error) {}
                 }
               });
