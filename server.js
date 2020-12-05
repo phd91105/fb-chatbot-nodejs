@@ -154,6 +154,7 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
+                var none = false;
                 function getname() {
                   return new Promise((resolve) => {
                     try {
@@ -175,6 +176,7 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
+                      none = true;
                     }
                   });
                 }
@@ -213,7 +215,9 @@ app.post("/webhook", function (req, res) {
 
                 await getname();
                 await delay(500);
-                await getTKB();
+                if (none == false) {
+                  await getTKB();
+                }
               }
             );
           } else if (
