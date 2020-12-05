@@ -154,7 +154,7 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
-                var val = false;
+                var val = true;
                 function getname() {
                   return new Promise((resolve) => {
                     try {
@@ -176,42 +176,41 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
+                      val = false;
                     }
                   });
                 }
 
                 function getTKB() {
                   return new Promise((resolve) => {
-                    var s = 0;
-                    for (i = 0; i < 7; i++) {
-                      try {
-                        let ob0 = body
-                          .match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                          )
-                          [i].match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                          )[1]
-                          .replace(/\'/g, "")
-                          .replace(/\,/g, ", ");
-                        regExString(ob0);
-                        if (today.getDay() == regexDay(ob0)) {
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                    if (val == true) {
+                      var s = 0;
+                      for (i = 0; i < 7; i++) {
+                        try {
+                          let ob0 = body
+                            .match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
                             )
-                          );
-                          s++;
-                        }
-                      } catch {
-                        if ((val == false)) {
-                          resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-                          val = true;
-                        }
+                            [i].match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                            )[1]
+                            .replace(/\'/g, "")
+                            .replace(/\,/g, ", ");
+                          regExString(ob0);
+                          if (today.getDay() == regexDay(ob0)) {
+                            resolve(
+                              sendMessage(
+                                senderId,
+                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                              )
+                            );
+                            s++;
+                          }
+                        } catch {}
                       }
+                      if (s == 0)
+                        resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
                     }
-                    // if (s == 0)
                   });
                 }
 
