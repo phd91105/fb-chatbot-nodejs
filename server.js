@@ -392,13 +392,7 @@ app.post("/webhook", function (req, res) {
                 headers: {
                   Authorization: `Bearer ${accesstoken}`,
                 },
-                body: JSON.stringify({
-                  userId: "0354353735",
-                  fromTime: 0,
-                  toTime: now,
-                  limit: 500,
-                  cursor: "",
-                }),
+                body: JSON.stringify({"userId":"0354353735","fromTime":0,"toTime":now,"limit":500,"cursor":""})
               };
               request(options, function (error, response) {
                 let json = JSON.parse(response.body);
