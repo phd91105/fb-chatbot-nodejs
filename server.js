@@ -96,7 +96,7 @@ app.post("/webhook", function (req, res) {
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
                 function getname() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     try {
                       let name = body
                         .match(
@@ -123,7 +123,7 @@ app.post("/webhook", function (req, res) {
                 }
 
                 function getTKB() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     var i = 0;
                     if (val == true) {
                       function myLoop() {
@@ -169,7 +169,7 @@ app.post("/webhook", function (req, res) {
               async function (err, response, body) {
                 var val = true;
                 function getname() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     try {
                       let name = body
                         .match(
@@ -195,7 +195,7 @@ app.post("/webhook", function (req, res) {
                 }
 
                 function getTKB() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     var s = 0;
                     if (val == true) {
                       for (i = 0; i < 7; i++) {
@@ -266,7 +266,7 @@ app.post("/webhook", function (req, res) {
                 // }
 
                 function getTKB() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     var i = 0;
                     function myLoop() {
                       //  create a loop function
@@ -330,7 +330,7 @@ app.post("/webhook", function (req, res) {
                 // }
 
                 function getTKB() {
-                  return new Promise(resolve => {
+                  return new Promise((resolve) => {
                     var s = 0;
                     for (i = 0; i < 7; i++) {
                       try {
@@ -428,7 +428,9 @@ app.post("/webhook", function (req, res) {
             request(
               `https://secureapp.simsimi.com/v1/simsimi/talkset?ak=no_auth&av=7.4.7.2&cc=VN&isFilter=1&lc=vn&message_sentence=${enc}&normalProb=8&os=i&reqFilter=1&session=N7DNJixfNV9HhF1rzqhyPbpPiTtCFAy6CTHNLj2hKBX7xvUC6neGmc6NkHCJZdVjksZZbAkSr9dDtNPUMDWvKsS3&talkCnt=1&talkCntTotal=1&tz=Asia%2FHo_Chi_Minh&uid=297041663`,
               function (error, response, body) {
-                let trl = JSON.parse(body)['simsimi_talk_set']['answers']['sentence'];
+                let trl = JSON.parse(body)["simsimi_talk_set"]["answers"][
+                  "sentence"
+                ];
                 sendMessage(senderId, `${trl}`);
               }
             );
@@ -436,12 +438,11 @@ app.post("/webhook", function (req, res) {
         } catch {}
     }
   }
-
   res.status(200).send("OK");
 });
 
 function delay(delayInms) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(() => {
       resolve(2);
     }, delayInms);
