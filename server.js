@@ -106,6 +106,7 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
+                      break;
                     }
                   });
                 }
@@ -175,6 +176,7 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
+                      break;
                     }
                   });
                 }
@@ -282,7 +284,7 @@ app.post("/webhook", function (req, res) {
                     // }
                   });
                 }
-                
+
                 await getname();
                 await delay(500);
                 await getTKB();
