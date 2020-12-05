@@ -402,7 +402,6 @@ app.post("/webhook", function (req, res) {
               };
               request(options, function (error, response) {
                 let json = JSON.parse(response.body);
-                // var stt = 1;
                 for (i in json["message"]["notifications"]) {
                   try {
                     let data = json["message"]["notifications"][
@@ -414,12 +413,13 @@ app.post("/webhook", function (req, res) {
                     let time = timeConverter(
                       json["message"]["notifications"][i].time
                     );
-                    if (data != null) {
+                    if (data != null && body != null) {
+                      sendMessage(
+                        senderId,
+                        `${time}: ${data[0]}\nNội dung: ${body}`
+                      );
+                    } else if (data != null && body == null)
                       sendMessage(senderId, `${time}: ${data[0]}`);
-                      if (body != null) {
-                        sendMessage(senderId, `Nội dung: ${body}`);
-                      }
-                    }
                   } catch (error) {}
                 }
               });
