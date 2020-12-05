@@ -428,7 +428,7 @@ app.post("/webhook", function (req, res) {
             request(
               `https://secureapp.simsimi.com/v1/simsimi/talkset?ak=no_auth&av=7.4.7.2&cc=VN&isFilter=1&lc=vn&message_sentence=${enc}&normalProb=8&os=i&reqFilter=1&session=N7DNJixfNV9HhF1rzqhyPbpPiTtCFAy6CTHNLj2hKBX7xvUC6neGmc6NkHCJZdVjksZZbAkSr9dDtNPUMDWvKsS3&talkCnt=1&talkCntTotal=1&tz=Asia%2FHo_Chi_Minh&uid=297041663`,
               function (error, response, body) {
-                let trl = JSON.parse(response.body).simsimi_talk_set.message
+                let trl = JSON.parse(response.body).simsimi_talk_set.answers[0]
                   .sentence;
                 sendMessage(senderId, `${trl}`);
               }
