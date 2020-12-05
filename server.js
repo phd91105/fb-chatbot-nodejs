@@ -11,6 +11,7 @@ const periodBoard = require("./modules/periodBoard");
 const dayNum = require("./modules/dayNum");
 
 var today = new Date();
+var now = Date.now();
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -35,6 +36,17 @@ app.get("/webhook", function (req, res) {
 function regexDay(string) {
   d = string.match(/((Thứ|Chủ)[^,]+)/i)[0];
   return dayNum[d];
+}
+
+function timeConverter(UNIX_timestamp) {
+  let a = new Date(UNIX_timestamp);
+  let year = a.getFullYear(),
+    month = a.getMonth() + 1,
+    date = a.getDate(),
+    hour = a.getHours(),
+    min = a.getMinutes(),
+    time = `${date}/${month}/${year} ${hour}:${min}`;
+  return time;
 }
 
 function regExString(ob0) {
@@ -354,6 +366,65 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
+          } else if (message.message.text.match(/.*lsmm.*/gi)) {
+            function getAuth() {
+              var options = {
+                method: "POST",
+                url:
+                  "https://securetoken.googleapis.com/v1/token?key=AIzaSyDvD545LajkDChMgDwmk0AAtylqV1sO_Wk",
+                body: JSON.stringify({
+                  grantType: "refresh_token",
+                  refreshToken:
+                    "AG8BCnfDPUIld74LrlTdf6iAma3xINpXV8-DPK830Vr_JFYr9JJR5DtUF9xAEQrKeGUfyPfJwLkr7J-VsLEDz2qDQK0-U2YXn9xql14_qfiqOoqGfRN2jDymZxxBu6TT81JhhYHtrmxVgbKV7mMnvxnEUrmqY4Nyd_gxWa6_mMXa2A6h6ZeCCMyXLd0B65LgbrKGVCupAMDLzDfNolQA4GXFQet4lUo9wg",
+                }),
+              };
+              request(options, function (error, response) {
+                let resBody = JSON.parse(response.body);
+                accesstoken = resBody["id_token"];
+                getData();
+              });
+            }
+
+            function getData() {
+              var options = {
+                method: "POST",
+                url: "https://m.mservice.io/hydra/v1/user/noti",
+                headers: {
+                  Authorization: `Bearer ${accesstoken}`,
+                },
+                body: JSON.stringify({
+                  userId: "0354353735",
+                  fromTime: 0,
+                  toTime: now,
+                  limit: 500,
+                  cursor: "",
+                }),
+              };
+              request(options, function (error, response) {
+                let json = JSON.parse(response.body);
+                // var stt = 1;
+                for (i in json["message"]["notifications"]) {
+                  try {
+                    let data = json["message"]["notifications"][
+                      i
+                    ].caption.match(/Nhận.\d+\.\d+đ.từ.+/);
+                    let body = json["message"]["notifications"][i].body.match(
+                      /\".+\"/
+                    );
+                    let time = timeConverter(
+                      json["message"]["notifications"][i].time
+                    );
+                    if (data != null) {
+                      sendMessage(senderId, `${time}: ${data[0]}`);
+                      if (body != null) {
+                        sendMessage(senderId, `Nội dung: ${body}`);
+                      }
+                    }
+                  } catch (error) {}
+                }
+              });
+            }
+            getAuth();
           } else if (message.message.text == `?`)
             sendMessage(
               senderId,
