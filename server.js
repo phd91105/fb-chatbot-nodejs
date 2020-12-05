@@ -36,6 +36,7 @@ function regexDay(string) {
   d = string.match(/((Thứ|Chủ)[^,]+)/i)[0];
   return dayNum[d];
 }
+
 function regExString(ob0) {
   return (
     (tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1])),
@@ -46,6 +47,7 @@ function regExString(ob0) {
     settime(tietbd, tietkt)
   );
 }
+
 function settime(tbd, tkt) {
   return (
     (timestart = `${periodBoard[tbd].start.hour}h${periodBoard[tbd].start.minute}`),
@@ -53,6 +55,37 @@ function settime(tbd, tkt) {
       periodBoard[tbd + tkt - 1].end.minute
     }`)
   );
+}
+
+function getTKB(body) {
+  return new Promise((resolve) => {
+    var s = 0;
+    for (i = 0; i < 7; i++) {
+      try {
+        let ob0 = body
+          .match(
+            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+          )
+          [i].match(
+            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+          )[1]
+          .replace(/\'/g, "")
+          .replace(/\,/g, ", ");
+        regExString(ob0);
+        if (today.getDay() == regexDay(ob0)) {
+          resolve(
+            sendMessage(
+              senderId,
+              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+            )
+          );
+          s++;
+        }
+      } catch {}
+    }
+    if (s == 0)
+      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+  });
 }
 
 // Xử lý khi có người nhắn tin cho bot
@@ -124,11 +157,6 @@ app.post("/webhook", function (req, res) {
                             .replace(/\'/g, "")
                             .replace(/\,/g, ", ");
                           regExString(ob0);
-                          // let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                          // let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-                          // let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                          // let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                          // let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
                           resolve(
                             sendMessage(
                               senderId,
@@ -195,12 +223,7 @@ app.post("/webhook", function (req, res) {
                           )[1]
                           .replace(/\'/g, "")
                           .replace(/\,/g, ", ");
-                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                        let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-                        let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                        let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                        let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        settime(tietbd, tietkt);
+                        regExString(ob0);
                         if (today.getDay() == regexDay(ob0)) {
                           resolve(
                             sendMessage(
@@ -270,12 +293,7 @@ app.post("/webhook", function (req, res) {
                             )[1]
                             .replace(/\'/g, "")
                             .replace(/\,/g, ", ");
-                          let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                          let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-                          let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                          let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                          let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                          settime(tietbd, tietkt);
+                          regExString(ob0);
                           resolve(
                             sendMessage(
                               senderId,
@@ -322,44 +340,10 @@ app.post("/webhook", function (req, res) {
                   });
                 }
 
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var s = 0;
-                    for (i = 0; i < 7; i++) {
-                      try {
-                        let ob0 = body
-                          .match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                          )
-                          [i].match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                          )[1]
-                          .replace(/\'/g, "")
-                          .replace(/\,/g, ", ");
-                        let tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1]);
-                        let tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2]);
-                        let dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0];
-                        let subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0];
-                        let room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0];
-                        settime(tietbd, tietkt);
-                        if (today.getDay() == regexDay(ob0)) {
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                          s++;
-                        }
-                      } catch {}
-                    }
-                    if (s == 0)
-                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-                  });
-                }
+                
                 await getname();
                 await delay(500);
-                await getTKB();
+                await getTKB(body);
               }
             );
           } else if (message.message.text == `?`)
