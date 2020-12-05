@@ -154,7 +154,7 @@ app.post("/webhook", function (req, res) {
             request(
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
-                var none = false;
+                var val = false;
                 function getname() {
                   return new Promise((resolve) => {
                     try {
@@ -176,7 +176,6 @@ app.post("/webhook", function (req, res) {
                           `Không tìm thấy thông tin sinh viên !`
                         )
                       );
-                      none = true;
                     }
                   });
                 }
@@ -206,7 +205,10 @@ app.post("/webhook", function (req, res) {
                           s++;
                         }
                       } catch {
-                        resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                        if ((val = false)) {
+                          resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                          val = true;
+                        }
                       }
                     }
                     // if (s == 0)
@@ -215,9 +217,7 @@ app.post("/webhook", function (req, res) {
 
                 await getname();
                 await delay(500);
-                if (none == false) {
-                  await getTKB();
-                }
+                await getTKB();
               }
             );
           } else if (
