@@ -205,7 +205,7 @@ app.post("/webhook", function (req, res) {
                           s++;
                         }
                       } catch {
-                        if ((val = false)) {
+                        if ((val == false)) {
                           resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
                           val = true;
                         }
