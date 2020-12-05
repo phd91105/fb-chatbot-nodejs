@@ -5,13 +5,11 @@ var http = require("http");
 var bodyParser = require("body-parser");
 var express = require("express");
 var request = require("request");
-var router = express();
+// var router = express();
 var app = express();
 const periodBoard = require("./modules/periodBoard");
 const dayNum = require("./modules/dayNum");
-
 var today = new Date();
-var now = Date.now();
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
@@ -98,7 +96,7 @@ app.post("/webhook", function (req, res) {
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
                 function getname() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     try {
                       let name = body
                         .match(
@@ -125,7 +123,7 @@ app.post("/webhook", function (req, res) {
                 }
 
                 function getTKB() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     var i = 0;
                     if (val == true) {
                       function myLoop() {
@@ -171,7 +169,7 @@ app.post("/webhook", function (req, res) {
               async function (err, response, body) {
                 var val = true;
                 function getname() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     try {
                       let name = body
                         .match(
@@ -197,7 +195,7 @@ app.post("/webhook", function (req, res) {
                 }
 
                 function getTKB() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     var s = 0;
                     if (val == true) {
                       for (i = 0; i < 7; i++) {
@@ -268,7 +266,7 @@ app.post("/webhook", function (req, res) {
                 // }
 
                 function getTKB() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     var i = 0;
                     function myLoop() {
                       //  create a loop function
@@ -332,7 +330,7 @@ app.post("/webhook", function (req, res) {
                 // }
 
                 function getTKB() {
-                  return new Promise((resolve) => {
+                  return new Promise(resolve => {
                     var s = 0;
                     for (i = 0; i < 7; i++) {
                       try {
@@ -366,62 +364,59 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
-          } else if (message.message.text.match(/.*lsmm.*/gi)) {
-            function getAuth() {
-              var options = {
-                method: "POST",
-                url:
-                  "https://securetoken.googleapis.com/v1/token?key=AIzaSyDvD545LajkDChMgDwmk0AAtylqV1sO_Wk",
-                body: JSON.stringify({
-                  grantType: "refresh_token",
-                  refreshToken:
-                    "AG8BCnfDPUIld74LrlTdf6iAma3xINpXV8-DPK830Vr_JFYr9JJR5DtUF9xAEQrKeGUfyPfJwLkr7J-VsLEDz2qDQK0-U2YXn9xql14_qfiqOoqGfRN2jDymZxxBu6TT81JhhYHtrmxVgbKV7mMnvxnEUrmqY4Nyd_gxWa6_mMXa2A6h6ZeCCMyXLd0B65LgbrKGVCupAMDLzDfNolQA4GXFQet4lUo9wg",
-                }),
-              };
-              request(options, function (error, response) {
-                let resBody = JSON.parse(response.body);
-                accesstoken = resBody["id_token"];
-                getData();
-              });
-            }
+            // } else if (message.message.text.match(/.*lsmm.*/gi)) {
+            //   function getAuth() {
+            //     var options = {
+            //       method: "POST",
+            //       url:
+            //         "https://securetoken.googleapis.com/v1/token?key=AIzaSyDvD545LajkDChMgDwmk0AAtylqV1sO_Wk",
+            //       body: JSON.stringify({
+            //         grantType: "refresh_token",
+            //         refreshToken:
+            //           "AG8BCnfDPUIld74LrlTdf6iAma3xINpXV8-DPK830Vr_JFYr9JJR5DtUF9xAEQrKeGUfyPfJwLkr7J-VsLEDz2qDQK0-U2YXn9xql14_qfiqOoqGfRN2jDymZxxBu6TT81JhhYHtrmxVgbKV7mMnvxnEUrmqY4Nyd_gxWa6_mMXa2A6h6ZeCCMyXLd0B65LgbrKGVCupAMDLzDfNolQA4GXFQet4lUo9wg",
+            //       }),
+            //     };
+            //     request(options, function (error, response) {
+            //       let resBody = JSON.parse(response.body);
+            //       accesstoken = resBody["id_token"];
+            //       getData();
+            //     });
+            //   }
 
-            function getData() {
-              var options = {
-                method: "POST",
-                url: "https://m.mservice.io/hydra/v1/user/noti",
-                headers: {
-                  Authorization: `Bearer ${accesstoken}`,
-                },
-                body: JSON.stringify({
-                  userId: "0354353735",
-                  fromTime: 0,
-                  toTime: now,
-                  limit: 500,
-                  cursor: "",
-                }),
-              };
-              request(options, function (error, response) {
-                let json = JSON.parse(response.body);
-                for (i in json["message"]["notifications"]) {
-                  try {
-                    let data = json["message"]["notifications"][
-                      i
-                    ].caption.match(/Nhận.\d+\.\d+đ.từ.+/);
-                    let body = json["message"]["notifications"][i].body.match(
-                      /\".+\"/
-                    );
-                    // let time = timeConverter(
-                    //   json["message"]["notifications"][i].time
-                    // );
-                    if (data != null && body != null) {
-                      sendMessage(senderId, `${data[0]}\nNội dung: ${body}`);
-                    } else if (data != null && body == null)
-                      sendMessage(senderId, `${data[0]}`);
-                  } catch (error) {}
-                }
-              });
-            }
-            getAuth();
+            //   function getData() {
+            //     var options = {
+            //       method: "POST",
+            //       url: "https://m.mservice.io/hydra/v1/user/noti",
+            //       headers: {
+            //         Authorization: `Bearer ${accesstoken}`,
+            //       },
+            //       body: JSON.stringify({"userId":"0354353735","fromTime":0,"toTime":now,"limit":500,"cursor":""})
+            //     };
+            //     request(options, function (error, response) {
+            //       let json = JSON.parse(response.body);
+            //       for (i in json["message"]["notifications"]) {
+            //         try {
+            //           let data = json["message"]["notifications"][
+            //             i
+            //           ].caption.match(/Nhận.\d+\.\d+đ.từ.+/);
+            //           let body = json["message"]["notifications"][i].body.match(
+            //             /\".+\"/
+            //           );
+            //           let time = timeConverter(
+            //             json["message"]["notifications"][i].time
+            //           );
+            //           if (data != null && body != null) {
+            //             sendMessage(
+            //               senderId,
+            //               `${time}: ${data[0]}\nNội dung: ${body}`
+            //             );
+            //           } else if (data != null && body == null)
+            //             sendMessage(senderId, `${time}: ${data[0]}`);
+            //         } catch (error) {}
+            //       }
+            //     });
+            //   }
+            //   getAuth();
           } else if (message.message.text == `?`)
             sendMessage(
               senderId,
@@ -446,7 +441,7 @@ app.post("/webhook", function (req, res) {
 });
 
 function delay(delayInms) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     setTimeout(() => {
       resolve(2);
     }, delayInms);
