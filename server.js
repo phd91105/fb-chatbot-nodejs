@@ -128,10 +128,9 @@ app.post("/webhook", function (req, res) {
 
               function getTKB() {
                 return new Promise((resolve) => {
-
+                  var s = 0;
                   if (val == true) {
                     for (i = 0; i < 7; i++) {
-                      var s = 0;
                       try {
                         let ob0 = body.match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g)[i].match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/)[1].replace(/\'/g, "").replace(/\,/g, ", ");
                         regExString(ob0);
@@ -180,23 +179,23 @@ app.post("/webhook", function (req, res) {
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
               async function (err, response, body) {
                 function getTKB() {
-
-                  for (i = 0; i < 7; i++) {
+                  return new Promise((resolve) => {
                     var s = 0;
-                    try {
-                      let ob0 = body.match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g)[i].match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/)[1].replace(/\'/g, "").replace(/\,/g, ", ");
-                      regExString(ob0);
-                      if (today.getDay() == regexDay(ob0)) {
-                        resolve(sendMessage(senderId, `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`));
-                        s++;
-                      }
-                      if (s == 0)
-                    resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-                    } catch { }
-                  }
-                  
-                };
-
+                    for (i = 0; i < 7; i++) {
+                      try {
+                        let ob0 = body.match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g)[i].match(/<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/)[1].replace(/\'/g, "").replace(/\,/g, ", ");
+                        regExString(ob0);
+                        if (today.getDay() == regexDay(ob0)) {
+                          resolve(sendMessage(senderId, `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`));
+                          s++;
+                        }
+                      } catch { }
+                    }
+                    if (s == 0)
+                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                  });
+                }
+                await getTKB();
               }
             );
           } else if (message.message.text == `?`)
