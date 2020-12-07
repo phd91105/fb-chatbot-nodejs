@@ -190,10 +190,11 @@ app.post("/webhook", function (req, res) {
                         resolve(sendMessage(senderId, `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`));
                         s++;
                       }
+                      if (s == 0)
+                    resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
                     } catch { }
                   }
-                  if (s == 0)
-                    resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+                  
                 };
 
               }
