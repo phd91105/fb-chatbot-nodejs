@@ -198,7 +198,7 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
-          } else if (message.message.text == `time`) {
+          } else if (message.message.text.match(/now$/i)) {
             sendMessage(senderId, `${Date.now()}`);
           }
           else if (message.message.text == `?`)
