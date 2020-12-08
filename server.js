@@ -198,7 +198,10 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
-          } else if (message.message.text == `?`)
+          } else if (message.message.text == `time`) {
+            sendMessage(senderId, `${Date.now()}`);
+          }
+          else if (message.message.text == `?`)
             sendMessage(senderId, `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV\n\thoặc tkb all MA_SO_SV`);
           else {
             let text = message.message.text;
