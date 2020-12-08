@@ -8,6 +8,8 @@ var app = express();
 const periodBoard = require("./modules/periodBoard");
 const dayNum = require("./modules/dayNum");
 var today = new Date();
+var offset = 14;
+today.setHours(today.getHours() + offset);
 
 app.use(logger("dev"));
 app.use(bodyParser.json());
