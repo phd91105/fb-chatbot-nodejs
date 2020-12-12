@@ -1,5 +1,3 @@
-/** @format */
-
 const periodBoard = {
   1: {
     start: {

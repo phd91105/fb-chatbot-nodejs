@@ -1,5 +1,3 @@
-/** @format */
-
 const dayNum = {
   "Chủ Nhật": 0,
   "Thứ Hai": 1,
