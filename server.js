@@ -28,7 +28,7 @@ const {
   getMusicInfo,
 } = require("./utils/zingmp3");
 
-const musicPath = path.join(__dirname, "musics");
+const musicPath = path.join(__dirname, "./musics");
 const store = [];
 
 var today = new Date();
@@ -173,8 +173,8 @@ app.post("/webhook", function (req, res) {
             );
           } else if (message.message.text.match(/zz/)) {
             // async (message) => {
-            const args = parseArg(message.body, "א");
-            const play = parseValue(args, ["play", "p"]);
+            // const args = parseArg(message.body, "א");
+            // const play = parseValue(args, ["play", "p"]);
             // if (play) {
             async function start() {
               const start = Date.now();
