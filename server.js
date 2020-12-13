@@ -28,7 +28,7 @@ const {
   getMusicInfo,
 } = require("./utils/zingmp3");
 
-const musicPath = path.join(__dirname, "./musics");
+const musicPath = path.join("./musics");
 
 const store = [];
 
