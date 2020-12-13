@@ -179,11 +179,11 @@ app.post("/webhook", function (req, res) {
             async function start() {
               const start = Date.now();
               const id = "ZOI6BFA9";
-              sendMessage(
-                senderId,
-                `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
-                // message.threadID
-              );
+              // sendMessage(
+              //   senderId,
+              //   `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
+              //   // message.threadID
+              // );
               try {
                 const url = await getDownloadUrl(id);
                 const filename = `${uniqid()}.mp3`;
