@@ -3,10 +3,27 @@ var http = require("http");
 var bodyParser = require("body-parser");
 var express = require("express");
 var request = require("request");
+// const request = require("request");
+const uniqid = require("uniqid");
+const axios = require("axios");
+const path = require("path");
+const os = require("os");
+const fs = require("fs");
 // var router = express();
 var app = express();
 const periodBoard = require("./modules/periodBoard");
 const dayNum = require("./modules/dayNum");
+
+const API_SIG =
+  "b92dd121d84c5597d770896c7a93e60f03247b50828bdf1012b5da052951c74c22f9db6072ec5b942546114dbd3a773d79d675f9e668cf1e9a31af37c9aa2efa";
+const API_KEY = "38e8643fb0dc04e8d65b99994d3dafff";
+// const {parseValue, parseArg, deleteFile, getFileSize} = kb2abot.utils;
+// const {getDownloadUrl, addMusicInfo, getMusicInfo} = kb2abot.utils.zingmp3;
+require("./utils/COMMON");
+require("./utils/zingmp3");
+const musicPath = path.join(__dirname, "./musics");
+const store = [];
+
 var today = new Date();
 var offset = 14;
 today.setHours(today.getHours() + offset);
@@ -147,6 +164,60 @@ app.post("/webhook", function (req, res) {
                 await getTKB();
               }
             );
+          } else if (message.message.text.match(/zz/)) {
+            async (message) => {
+              // const args = parseArg(message.body, "א");
+              // const play = parseValue(args, ["play", "p"]);
+              // if (play) {
+              const start = Date.now();
+              const id = 'sZOI6BFA9';
+              sendMessage(
+                senderId,
+                `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
+                // message.threadID
+              );
+              try {
+                const url = await getDownloadUrl(id);
+                const filename = `${uniqid()}.mp3`;
+                request(url)
+                  .pipe(fs.createWriteStream(path.join(musicPath, filename)))
+                  .on("finish", () => {
+                    let fileSize = getFileSize(path.join(musicPath, filename));
+                    if (fileSize > 50) {
+                      const replyMsg = `Không thể gửi: dung lượng file id(${id}) quá lớn (${fileSize}MB>25MB)`;
+                      sendMessage(senderId, replyMsg);
+                    } else {
+                      let replyMsg = "";
+                      const songInfo = getMusicInfo(id, store);
+                      const timeGet = (Date.now() - start) / 1000;
+
+                      if (!songInfo) replyMsg = `${id} (${timeGet}s)`;
+                      else
+                        replyMsg = `Bài hát: ${songInfo.title}${os.EOL}Tác giả: ${songInfo.artists_names}${os.EOL}Get nhạc trong ${timeGet}s`;
+
+                      sendMessage(
+                        senderId,
+                        {
+                          body: replyMsg,
+                          attachment: fs.createReadStream(
+                            path.join(musicPath, filename)
+                          ),
+                        },
+                        // message.threadID,
+                        // () => {
+                        //   deleteFile(path.join(musicPath, filename));
+                        // }
+                      );
+                    }
+                  });
+              } catch (e) {
+                setTimeout(() => {
+                  const replyMsg = `Đã gặp lỗi: Không tìm thấy id bài hát! (${id})${os.EOL}`;
+                  sendMessage(senderId, replyMsg);
+                }, 100);
+              }
+              // }
+            };
           } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
             var mssv = message.message.text.match(/[0-9]*$/);
             request(
