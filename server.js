@@ -165,12 +165,13 @@ app.post("/webhook", function (req, res) {
               }
             );
           } else if (message.message.text.match(/zz/)) {
-            async (message) => {
-              // const args = parseArg(message.body, "א");
-              // const play = parseValue(args, ["play", "p"]);
-              // if (play) {
+            // async (message) => {
+            // const args = parseArg(message.body, "א");
+            // const play = parseValue(args, ["play", "p"]);
+            // if (play) {
+            async function start() {
               const start = Date.now();
-              const id = 'sZOI6BFA9';
+              const id = "sZOI6BFA9";
               sendMessage(
                 senderId,
                 `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
@@ -202,7 +203,7 @@ app.post("/webhook", function (req, res) {
                           attachment: fs.createReadStream(
                             path.join(musicPath, filename)
                           ),
-                        },
+                        }
                         // message.threadID,
                         // () => {
                         //   deleteFile(path.join(musicPath, filename));
@@ -217,7 +218,8 @@ app.post("/webhook", function (req, res) {
                 }, 100);
               }
               // }
-            };
+            }
+            start();
           } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
             var mssv = message.message.text.match(/[0-9]*$/);
             request(
