@@ -19,7 +19,10 @@ const API_SIG =
 const API_KEY = "38e8643fb0dc04e8d65b99994d3dafff";
 
 const {
-  parseValue, parseArg, deleteFile, getFileSize 
+  parseValue,
+  parseArg,
+  deleteFile,
+  getFileSize,
 } = require("./utils/COMMON");
 
 const {
@@ -28,7 +31,7 @@ const {
   getMusicInfo,
 } = require("./utils/zingmp3");
 
-const musicPath = path.join(__dirname, './musics');
+const musicPath = path.join(__dirname, "./musics");
 
 const store = [];
 
@@ -126,83 +129,81 @@ app.post("/webhook", function (req, res) {
             var val = true;
             var mssv = message.message.text.match(/[0-9]*$/);
             var options = {
-                      method: "GET",
-                      url:
-                        "http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}",
-                      headers: {
-                        Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
-                      },
-                    };
-            request(options,
-              async function (err, response, body) {
-                function getname() {
-                  return new Promise((resolve) => {
-                    try {
-                      let name = body
-                            .match(
-                              /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/span>/
-                            )[1]
-                            .replace(/\s\-.+\s\s/g, "");
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Thời khoá biểu của ${name} trong tuần`
-                        )
-                      );
-                    } catch {
-                      resolve(
-                        sendMessage(
-                          senderId,
-                         // `Không tìm thấy thông tin sinh viên !`
-                          `${name}`
-                        )
-                      );
-                      val = false;
-                    }
-                  });
-                }
-
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var i = 0;
-                    if (val == true) {
-                      function myLoop() {
-                        setTimeout(function () {
-                          try {
-                            let ob0 = body
-                              .match(
-                                /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                              )
-                              [i].match(
-                                /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                              )[1]
-                              .replace(/\'/g, "")
-                              .replace(/\,/g, ", ");
-                            regExString(ob0);
-                            resolve(
-                              sendMessage(
-                                senderId,
-                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                              )
-                            );
-                          } catch {}
-                          i++;
-                          if (i < 7) {
-                            myLoop();
-                          }
-                        }, 1000);
-                      }
-                      myLoop();
-                    }
-                  });
-                }
-                await BypassCaptcha();
-                await getname();
-                await delay(500);
-                await getTKB();
+              method: "GET",
+              url:
+                "http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}",
+              headers: {
+                Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
+              },
+            };
+            request(options, async function (err, response, body) {
+              function getname() {
+                return new Promise((resolve) => {
+                  try {
+                    var name = body
+                      .match(
+                        /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                      )[1]
+                      .replace(/\s\-.+\s\s/g, "");
+                    resolve(
+                      sendMessage(
+                        senderId,
+                        `Thời khoá biểu của ${name} trong tuần`
+                      )
+                    );
+                  } catch {
+                    resolve(
+                      sendMessage(
+                        senderId,
+                        `Không tìm thấy thông tin sinh viên !`
+                      )
+                    );
+                    val = false;
+                  }
+                });
               }
-            );
-          } else if (message.message.text == 'zz') {
+
+              function getTKB() {
+                return new Promise((resolve) => {
+                  var i = 0;
+                  if (val == true) {
+                    function myLoop() {
+                      setTimeout(function () {
+                        try {
+                          let ob0 = body
+                            .match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                            )
+                            [i].match(
+                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                            )[1]
+                            .replace(/\'/g, "")
+                            .replace(/\,/g, ", ");
+                          regExString(ob0);
+                          resolve(
+                            sendMessage(
+                              senderId,
+                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                            )
+                          );
+                        } catch {}
+                        i++;
+                        if (i < 7) {
+                          myLoop();
+                        }
+                      }, 1000);
+                    }
+                    myLoop();
+                  }
+                });
+              }
+              
+              await BypassCaptcha();
+              await getname();
+              await delay(500);
+              await getTKB();
+            });
+          } else if (message.message.text == "zz") {
             // async (message) => {
             // const args = parseArg(message.body, "א");
             // const play = parseValue(args, ["play", "p"]);
@@ -264,7 +265,6 @@ app.post("/webhook", function (req, res) {
               `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               async function (err, response, body) {
                 var val = true;
-
                 function getname() {
                   return new Promise((resolve) => {
                     try {
