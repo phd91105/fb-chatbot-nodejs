@@ -131,7 +131,7 @@ app.post("/webhook", function (req, res) {
             var options = {
               method: "GET",
               url:
-                "http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}",
+                `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               headers: {
                 Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
               },
@@ -197,7 +197,7 @@ app.post("/webhook", function (req, res) {
                   }
                 });
               }
-              
+
               await BypassCaptcha();
               await getname();
               await delay(500);
