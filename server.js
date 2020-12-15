@@ -140,7 +140,7 @@ app.post("/webhook", function (req, res) {
                     try {
                       let name = body
                         .match(
-                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/span>/
                         )[1]
                         .replace(/\s\-.+\s\s/g, "");
                       resolve(
