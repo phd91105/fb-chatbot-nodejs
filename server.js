@@ -139,10 +139,10 @@ app.post("/webhook", function (req, res) {
                   return new Promise((resolve) => {
                     try {
                       let name = body
-                        .match(
-                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/span>/
-                        )[1]
-                        .replace(/\s\-.+\s\s/g, "");
+                            .match(
+                              /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/span>/
+                            )[1]
+                            .replace(/\s\-.+\s\s/g, "");
                       resolve(
                         sendMessage(
                           senderId,
@@ -153,7 +153,8 @@ app.post("/webhook", function (req, res) {
                       resolve(
                         sendMessage(
                           senderId,
-                          `Không tìm thấy thông tin sinh viên !`
+                         // `Không tìm thấy thông tin sinh viên !`
+                          `${name}`
                         )
                       );
                       val = false;
