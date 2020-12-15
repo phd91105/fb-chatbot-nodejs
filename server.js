@@ -129,7 +129,7 @@ app.post("/webhook", function (req, res) {
             var val = true;
             var mssv = message.message.text.match(/[0-9]*$/);
             var options = {
-              method: "GET",
+              method: "POST",
               url: `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               headers: {
                 Cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
