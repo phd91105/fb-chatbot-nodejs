@@ -69,7 +69,7 @@ function BypassCaptcha() {
     method: "POST",
     url: "http://daotao.hutech.edu.vn/Default.aspx?page=xacthuctrangchu",
     headers: {
-      Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
+      Cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
     },
     formData: {
       __VIEWSTATE:
@@ -132,7 +132,7 @@ app.post("/webhook", function (req, res) {
               method: "GET",
               url: `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               headers: {
-                Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
+                Cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
               },
             };
             request(options, async function (err, response, body) {
