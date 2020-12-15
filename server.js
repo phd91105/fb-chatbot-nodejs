@@ -4,36 +4,36 @@ var bodyParser = require("body-parser");
 var express = require("express");
 var request = require("request");
 // const request = require("request");
-const uniqid = require("uniqid");
-const axios = require("axios");
-const path = require("path");
-const os = require("os");
-const fs = require("fs");
+// const uniqid = require("uniqid");
+// const axios = require("axios");
+// const path = require("path");
+// const os = require("os");
+// const fs = require("fs");
 // var router = express();
 var app = express();
 const periodBoard = require("./modules/periodBoard");
-const dayNum = require("./modules/dayNum");
+// const dayNum = require("./modules/dayNum");
 
-const API_SIG =
-  "b92dd121d84c5597d770896c7a93e60f03247b50828bdf1012b5da052951c74c22f9db6072ec5b942546114dbd3a773d79d675f9e668cf1e9a31af37c9aa2efa";
-const API_KEY = "38e8643fb0dc04e8d65b99994d3dafff";
+// const API_SIG =
+//   "b92dd121d84c5597d770896c7a93e60f03247b50828bdf1012b5da052951c74c22f9db6072ec5b942546114dbd3a773d79d675f9e668cf1e9a31af37c9aa2efa";
+// const API_KEY = "38e8643fb0dc04e8d65b99994d3dafff";
 
-const {
-  parseValue,
-  parseArg,
-  deleteFile,
-  getFileSize,
-} = require("./utils/COMMON");
+// const {
+//   parseValue,
+//   parseArg,
+//   deleteFile,
+//   getFileSize,
+// } = require("./utils/COMMON");
 
-const {
-  getDownloadUrl,
-  addMusicInfo,
-  getMusicInfo,
-} = require("./utils/zingmp3");
+// const {
+//   getDownloadUrl,
+//   addMusicInfo,
+//   getMusicInfo,
+// } = require("./utils/zingmp3");
 
-const musicPath = path.join(__dirname, "./musics");
+// const musicPath = path.join(__dirname, "./musics");
 
-const store = [];
+// const store = [];
 
 var today = new Date();
 var offset = 14;
@@ -59,10 +59,10 @@ app.get("/webhook", function (req, res) {
   res.send("Error, wrong validation token");
 });
 
-function regexDay(string) {
-  d = string.match(/((Thứ|Chủ)[^,]+)/i)[0];
-  return dayNum[d];
-}
+// function regexDay(string) {
+//   d = string.match(/((Thứ|Chủ)[^,]+)/i)[0];
+//   return dayNum[d];
+// }
 
 function BypassCaptcha() {
   var options = {
@@ -130,8 +130,7 @@ app.post("/webhook", function (req, res) {
             var mssv = message.message.text.match(/[0-9]*$/);
             var options = {
               method: "GET",
-              url:
-                `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
+              url: `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
               headers: {
                 Cookie: "ASP.NET_SessionId=lmzupf55ryqmogus2zsx5ky2",
               },
@@ -203,214 +202,214 @@ app.post("/webhook", function (req, res) {
               await delay(500);
               await getTKB();
             });
-          } else if (message.message.text == "zz") {
-            // async (message) => {
-            // const args = parseArg(message.body, "א");
-            // const play = parseValue(args, ["play", "p"]);
-            // if (play) {
-            async function start() {
-              const start = Date.now();
-              const id = "ZOI6BFA9";
-              sendMessage(
-                senderId,
-                `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
-                // message.threadID
-              );
-              try {
-                const url = await getDownloadUrl(id);
-                const filename = `${uniqid()}.mp3`;
-                request(url)
-                  .pipe(fs.createWriteStream(path.join(musicPath, filename)))
-                  .on("finish", () => {
-                    let fileSize = getFileSize(path.join(musicPath, filename));
-                    if (fileSize > 50) {
-                      const replyMsg = `Không thể gửi: dung lượng file id(${id}) quá lớn (${fileSize}MB>25MB)`;
-                      sendMessage(senderId, replyMsg);
-                    } else {
-                      let replyMsg = "";
-                      const songInfo = getMusicInfo(id, store);
-                      const timeGet = (Date.now() - start) / 1000;
+            //   } else if (message.message.text == "zz") {
+            //     // async (message) => {
+            //     // const args = parseArg(message.body, "א");
+            //     // const play = parseValue(args, ["play", "p"]);
+            //     // if (play) {
+            //     async function start() {
+            //       const start = Date.now();
+            //       const id = "ZOI6BFA9";
+            //       sendMessage(
+            //         senderId,
+            //         `Đang thu thập dữ liệu, vui lòng đợi . . . (${id})`
+            //         // message.threadID
+            //       );
+            //       try {
+            //         const url = await getDownloadUrl(id);
+            //         const filename = `${uniqid()}.mp3`;
+            //         request(url)
+            //           .pipe(fs.createWriteStream(path.join(musicPath, filename)))
+            //           .on("finish", () => {
+            //             let fileSize = getFileSize(path.join(musicPath, filename));
+            //             if (fileSize > 50) {
+            //               const replyMsg = `Không thể gửi: dung lượng file id(${id}) quá lớn (${fileSize}MB>25MB)`;
+            //               sendMessage(senderId, replyMsg);
+            //             } else {
+            //               let replyMsg = "";
+            //               const songInfo = getMusicInfo(id, store);
+            //               const timeGet = (Date.now() - start) / 1000;
 
-                      if (!songInfo) replyMsg = `${id} (${timeGet}s)`;
-                      else
-                        replyMsg = `Bài hát: ${songInfo.title}${os.EOL}Tác giả: ${songInfo.artists_names}${os.EOL}Get nhạc trong ${timeGet}s`;
+            //               if (!songInfo) replyMsg = `${id} (${timeGet}s)`;
+            //               else
+            //                 replyMsg = `Bài hát: ${songInfo.title}${os.EOL}Tác giả: ${songInfo.artists_names}${os.EOL}Get nhạc trong ${timeGet}s`;
 
-                      sendMessage(
-                        senderId,
-                        {
-                          body: replyMsg,
-                          attachment: fs.createReadStream(
-                            path.join(musicPath, filename)
-                          ),
-                        }
-                        // message.threadID,
-                        // () => {
-                        //   deleteFile(path.join(musicPath, filename));
-                        // }
-                      );
-                    }
-                  });
-              } catch (e) {
-                setTimeout(() => {
-                  const replyMsg = `Đã gặp lỗi: Không tìm thấy id bài hát! (${id})${os.EOL}`;
-                  sendMessage(senderId, replyMsg);
-                }, 100);
-              }
-              // }
-            }
-            start();
-          } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
-            var mssv = message.message.text.match(/[0-9]*$/);
-            request(
-              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
-              async function (err, response, body) {
-                var val = true;
-                function getname() {
-                  return new Promise((resolve) => {
-                    try {
-                      let name = body
-                        .match(
-                          /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
-                        )[1]
-                        .replace(/\s\-.+\s\s/g, "");
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Thời khoá biểu của ${name} hôm nay`
-                        )
-                      );
-                    } catch {
-                      resolve(
-                        sendMessage(
-                          senderId,
-                          `Không tìm thấy thông tin sinh viên !`
-                        )
-                      );
-                      val = false;
-                    }
-                  });
-                }
+            //               sendMessage(
+            //                 senderId,
+            //                 {
+            //                   body: replyMsg,
+            //                   attachment: fs.createReadStream(
+            //                     path.join(musicPath, filename)
+            //                   ),
+            //                 }
+            //                 // message.threadID,
+            //                 // () => {
+            //                 //   deleteFile(path.join(musicPath, filename));
+            //                 // }
+            //               );
+            //             }
+            //           });
+            //       } catch (e) {
+            //         setTimeout(() => {
+            //           const replyMsg = `Đã gặp lỗi: Không tìm thấy id bài hát! (${id})${os.EOL}`;
+            //           sendMessage(senderId, replyMsg);
+            //         }, 100);
+            //       }
+            //       // }
+            //     }
+            //     start();
+            //  } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
+            //     var mssv = message.message.text.match(/[0-9]*$/);
+            //     request(
+            //       `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
+            //       async function (err, response, body) {
+            //         var val = true;
+            //         function getname() {
+            //           return new Promise((resolve) => {
+            //             try {
+            //               let name = body
+            //                 .match(
+            //                   /<span\sid\=\"ctl00_ContentPlaceHolder1_ctl00_lblContentTenSV\".+\">([\s\S]*?)<\/font>/
+            //                 )[1]
+            //                 .replace(/\s\-.+\s\s/g, "");
+            //               resolve(
+            //                 sendMessage(
+            //                   senderId,
+            //                   `Thời khoá biểu của ${name} hôm nay`
+            //                 )
+            //               );
+            //             } catch {
+            //               resolve(
+            //                 sendMessage(
+            //                   senderId,
+            //                   `Không tìm thấy thông tin sinh viên !`
+            //                 )
+            //               );
+            //               val = false;
+            //             }
+            //           });
+            //         }
 
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var s = 0;
-                    if (val == true) {
-                      for (i = 0; i < 7; i++) {
-                        try {
-                          let ob0 = body
-                            .match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                            )
-                            [i].match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                            )[1]
-                            .replace(/\'/g, "")
-                            .replace(/\,/g, ", ");
-                          regExString(ob0);
-                          if (today.getDay() == regexDay(ob0)) {
-                            resolve(
-                              sendMessage(
-                                senderId,
-                                `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                              )
-                            );
-                            s++;
-                          }
-                        } catch {}
-                      }
-                      if (s == 0)
-                        resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-                    }
-                  });
-                }
-                await getname();
-                await delay(500);
-                await getTKB();
-              }
-            );
-          } else if (
-            message.message.text.match(/tkb\sall$/i) &&
-            senderId == 3601822406563650
-          ) {
-            request(
-              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
-              async function (err, response, body) {
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var i = 0;
+            //         function getTKB() {
+            //           return new Promise((resolve) => {
+            //             var s = 0;
+            //             if (val == true) {
+            //               for (i = 0; i < 7; i++) {
+            //                 try {
+            //                   let ob0 = body
+            //                     .match(
+            //                       /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+            //                     )
+            //                     [i].match(
+            //                       /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+            //                     )[1]
+            //                     .replace(/\'/g, "")
+            //                     .replace(/\,/g, ", ");
+            //                   regExString(ob0);
+            //                   if (today.getDay() == regexDay(ob0)) {
+            //                     resolve(
+            //                       sendMessage(
+            //                         senderId,
+            //                         `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+            //                       )
+            //                     );
+            //                     s++;
+            //                   }
+            //                 } catch {}
+            //               }
+            //               if (s == 0)
+            //                 resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+            //             }
+            //           });
+            //         }
+            //         await getname();
+            //         await delay(500);
+            //         await getTKB();
+            //       }
+            //     );
+            //   } else if (
+            //     message.message.text.match(/tkb\sall$/i) &&
+            //     senderId == 3601822406563650
+            //   ) {
+            //     request(
+            //       `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
+            //       async function (err, response, body) {
+            //         function getTKB() {
+            //           return new Promise((resolve) => {
+            //             var i = 0;
 
-                    function myLoop() {
-                      setTimeout(function () {
-                        try {
-                          let ob0 = body
-                            .match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                            )
-                            [i].match(
-                              /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                            )[1]
-                            .replace(/\'/g, "")
-                            .replace(/\,/g, ", ");
-                          regExString(ob0);
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                        } catch {}
-                        i++;
-                        if (i < 7) {
-                          myLoop();
-                        }
-                      }, 1000);
-                    }
-                    myLoop();
-                  });
-                }
-                await getTKB();
-              }
-            );
-          } else if (
-            message.message.text.match(/tkb$/i) &&
-            senderId == 3601822406563650
-          ) {
-            request(
-              `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
-              async function (err, response, body) {
-                function getTKB() {
-                  return new Promise((resolve) => {
-                    var s = 0;
-                    for (i = 0; i < 7; i++) {
-                      try {
-                        let ob0 = body
-                          .match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                          )
-                          [i].match(
-                            /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                          )[1]
-                          .replace(/\'/g, "")
-                          .replace(/\,/g, ", ");
-                        regExString(ob0);
-                        if (today.getDay() == regexDay(ob0)) {
-                          resolve(
-                            sendMessage(
-                              senderId,
-                              `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                            )
-                          );
-                          s++;
-                        }
-                      } catch {}
-                    }
-                    if (s == 0)
-                      resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
-                  });
-                }
-                await getTKB();
-              }
-            );
+            //             function myLoop() {
+            //               setTimeout(function () {
+            //                 try {
+            //                   let ob0 = body
+            //                     .match(
+            //                       /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+            //                     )
+            //                     [i].match(
+            //                       /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+            //                     )[1]
+            //                     .replace(/\'/g, "")
+            //                     .replace(/\,/g, ", ");
+            //                   regExString(ob0);
+            //                   resolve(
+            //                     sendMessage(
+            //                       senderId,
+            //                       `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+            //                     )
+            //                   );
+            //                 } catch {}
+            //                 i++;
+            //                 if (i < 7) {
+            //                   myLoop();
+            //                 }
+            //               }, 1000);
+            //             }
+            //             myLoop();
+            //           });
+            //         }
+            //         await getTKB();
+            //       }
+            //     );
+            //   } else if (
+            //     message.message.text.match(/tkb$/i) &&
+            //     senderId == 3601822406563650
+            //   ) {
+            //     request(
+            //       `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=1711061035`,
+            //       async function (err, response, body) {
+            //         function getTKB() {
+            //           return new Promise((resolve) => {
+            //             var s = 0;
+            //             for (i = 0; i < 7; i++) {
+            //               try {
+            //                 let ob0 = body
+            //                   .match(
+            //                     /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+            //                   )
+            //                   [i].match(
+            //                     /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+            //                   )[1]
+            //                   .replace(/\'/g, "")
+            //                   .replace(/\,/g, ", ");
+            //                 regExString(ob0);
+            //                 if (today.getDay() == regexDay(ob0)) {
+            //                   resolve(
+            //                     sendMessage(
+            //                       senderId,
+            //                       `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+            //                     )
+            //                   );
+            //                   s++;
+            //                 }
+            //               } catch {}
+            //             }
+            //             if (s == 0)
+            //               resolve(sendMessage(senderId, `Hôm nay được nghỉ !`));
+            //           });
+            //         }
+            //         await getTKB();
+            //       }
+            //     );
           } else if (message.message.text == `?`)
             sendMessage(
               senderId,
