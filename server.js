@@ -79,9 +79,7 @@ function BypassCaptcha() {
     },
   };
   return new Promise((resolve) => {
-    request(options, function (error, response) {
-      resolve();
-    });
+    resolve(request(options, function (error, response) {}));
   });
 }
 
