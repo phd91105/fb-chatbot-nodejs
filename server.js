@@ -146,7 +146,7 @@ app.post("/webhook", function (req, res) {
                                 .replace(/\'/g, "")
                                 .replace(/\,/g, ", ");
                               regExString(ob0);
-                              let msg = `\n${day} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
+                              let msg = `\n\n${day} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
                               arr.push(msg);
                             } catch {}
                           }
