@@ -35,7 +35,7 @@ function regExString(ob0) {
   return (
     (tietbd = parseInt(ob0.match(/\s(\d)+[,]/g)[1])),
     (tietkt = parseInt(ob0.match(/\s(\d)+[,]/g)[2])),
-    (dayy = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0]),
+    (day = ob0.match(/((Thứ|Chủ)[^,]+)/gi)[0]),
     (subj = ob0.match(/(?<=,)[^,]+(?=,)/)[0]),
     (room = ob0.match(/[\w]+\-[\d]+\.[\d]+(?=,)/)[0]),
     settime(tietbd, tietkt)
@@ -146,14 +146,8 @@ app.post("/webhook", function (req, res) {
                                 .replace(/\'/g, "")
                                 .replace(/\,/g, ", ");
                               regExString(ob0);
-                              let msg = `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
+                              let msg = `\n${day} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
                               arr.push(msg);
-                              // resolve(
-                              //   sendMessage(
-                              //     senderId,
-                              //     `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                              //   )
-                              // );
                             } catch {}
                           }
                         }
@@ -169,6 +163,7 @@ app.post("/webhook", function (req, res) {
             }
             async function run() {
               await bypassCaptcha();
+              await delay(500);
               await mainTask();
             }
             run();
