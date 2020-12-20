@@ -98,10 +98,8 @@ app.post("/webhook", function (req, res) {
                 url: "http://daotao.hutech.edu.vn/default.aspx",
                 qs: { page: "thoikhoabieu", sta: "0", id: "1711061035" },
                 headers: {
-                  "postman-token": "ec771c9d-7c86-ac2f-9f9c-5e69eab18301",
                   "cache-control": "no-cache",
-                  cookie:
-                    "_ga=GA1.3.1538359677.1608260817; _fbp=fb.2.1608260816987.1325391626; ASP.NET_SessionId=zxdkeormojdqyr55unobet3n",
+                  cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
                   "content-type":
                     "multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW",
                 },
