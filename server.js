@@ -157,7 +157,7 @@ app.post("/webhook", function (req, res) {
                             } catch {}
                           }
                         }
-                        resolve(sendMessage(senderId, arr));
+                        resolve(sendMessage(senderId, arr.toString()));
                       });
                     }
                     await getname();
