@@ -151,7 +151,7 @@ app.post("/webhook", function (req, res) {
                             } catch {}
                           }
                         }
-                        resolve(sendMessage(senderId, arr.toString()));
+                        resolve(sendMessage(senderId, arr.toString().replace(/\,\n/g,'\n')));
                       });
                     }
                     await getname();
