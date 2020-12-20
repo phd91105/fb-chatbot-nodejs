@@ -191,9 +191,9 @@ app.post("/webhook", function (req, res) {
             }
             async function run() {
               await bypassCaptcha();
-              await delay(200);
+              await delay(500);
               // await postReq();
-              // await delay(200);
+              // await delay(500);
               await mainTask();
             }
             run();
