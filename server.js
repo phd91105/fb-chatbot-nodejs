@@ -133,6 +133,7 @@ app.post("/webhook", function (req, res) {
                     function getTKB() {
                       return new Promise((resolve) => {
                         var i = 0;
+                        var arr = [];
                         if (val == true) {
                           function myLoop() {
                             setTimeout(function () {
@@ -147,12 +148,14 @@ app.post("/webhook", function (req, res) {
                                   .replace(/\'/g, "")
                                   .replace(/\,/g, ", ");
                                 regExString(ob0);
-                                resolve(
-                                  sendMessage(
-                                    senderId,
-                                    `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                                  )
-                                );
+                                var msg = `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
+                                arr.push(msg);
+                                // resolve(
+                                //   sendMessage(
+                                //     senderId,
+                                //     `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                                //   )
+                                // );
                               } catch {}
                               i++;
                               if (i < 7) {
@@ -163,6 +166,7 @@ app.post("/webhook", function (req, res) {
                           myLoop();
                         }
                       });
+                      sendMessage(senderId, msg);
                     }
                     await getname();
                     await delay(500);
@@ -171,7 +175,6 @@ app.post("/webhook", function (req, res) {
                 );
               });
             }
-
             async function run() {
               await bypassCaptcha();
               await mainTask();
