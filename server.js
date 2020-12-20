@@ -155,7 +155,7 @@ app.post("/webhook", function (req, res) {
                       });
                     }
                     await getname();
-                    // await delay(200);
+                    await delay(200);
                     await getTKB();
                   })
                 );
