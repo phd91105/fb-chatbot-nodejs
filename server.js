@@ -115,7 +115,8 @@ app.post("/webhook", function (req, res) {
               },
             };
 
-            function BypassCaptcha() {
+            function bypassCaptcha() {
+             return new Promise((resolve) => {
               var options = {
                 method: "POST",
                 url:
@@ -130,7 +131,6 @@ app.post("/webhook", function (req, res) {
                   ctl00$ContentPlaceHolder1$ctl00$btnXacNhan: "Vào website",
                 },
               };
-              return new Promise((resolve) => {
                 resolve(request(options));
               });
             }
@@ -196,8 +196,8 @@ app.post("/webhook", function (req, res) {
                   }
                 });
               }
-
-              await BypassCaptcha();
+              await bypassCaptcha();
+              await delay(500);
               await getname();
               await delay(500);
               await getTKB();
