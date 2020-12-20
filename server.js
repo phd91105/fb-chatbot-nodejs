@@ -72,6 +72,7 @@ app.post("/webhook", function (req, res) {
               );
             });
           } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
+            var mssv = message.message.text.match(/[0-9]*$/);
             function bypassCaptcha() {
               var options = {
                 method: "POST",
@@ -116,7 +117,6 @@ app.post("/webhook", function (req, res) {
             }
             function mainTask() {
               var val = true;
-              var mssv = message.message.text.match(/[0-9]*$/);
               var options = {
                 method: "GET",
                 url: `http://daotao.hutech.edu.vn/default.aspx?page=thoikhoabieu&sta=0&id=${mssv}`,
