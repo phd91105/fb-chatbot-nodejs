@@ -71,7 +71,7 @@ app.post("/webhook", function (req, res) {
                 `Quốc gia: ${stringbody.country}\nTổng: ${stringbody.cases}\nHôm nay: ${stringbody.todayCases}\nHồi phục: ${stringbody.recovered}\nĐang điều trị: ${stringbody.active}\nTử vong: ${stringbody.deaths}`
               );
             });
-          } else if (message.message.text.match(/tkb\sall\s\d{1,}/gi)) {
+          } else if (message.message.text.match(/tkb\s\d{1,}/gi)) {
             function bypassCaptcha() {
               var options = {
                 method: "POST",
@@ -155,7 +155,7 @@ app.post("/webhook", function (req, res) {
                       });
                     }
                     await getname();
-                    await delay(500);
+                    // await delay(200);
                     await getTKB();
                   })
                 );
@@ -163,7 +163,7 @@ app.post("/webhook", function (req, res) {
             }
             async function run() {
               await bypassCaptcha();
-              await delay(500);
+              await delay(200);
               await mainTask();
             }
             run();
