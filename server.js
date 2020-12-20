@@ -98,6 +98,7 @@ app.post("/webhook", function (req, res) {
                 url: "http://daotao.hutech.edu.vn/default.aspx",
                 qs: { page: "thoikhoabieu", sta: "0", id: "1711061035" },
                 headers: {
+                  "postman-token": "4a585bb6-e5ff-4c27-841c-ada3eaf0dee4",
                   "cache-control": "no-cache",
                   cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
                   "content-type":
@@ -204,7 +205,7 @@ app.post("/webhook", function (req, res) {
           } else if (message.message.text == `?`)
             sendMessage(
               senderId,
-              `Covid-19: ncov\nThời khoá biểu: tkb MA_SO_SV\n\thoặc tkb all MA_SO_SV`
+              `Covid-19: ncov\nThời khoá biểu: tkb <mã sinh viên>`
             );
           else {
             let text = message.message.text;
