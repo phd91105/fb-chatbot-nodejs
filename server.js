@@ -132,41 +132,33 @@ app.post("/webhook", function (req, res) {
 
                     function getTKB() {
                       return new Promise((resolve) => {
-                        var i = 0;
                         var arr = [];
                         if (val == true) {
-                          function myLoop() {
-                            setTimeout(function () {
-                              try {
-                                let ob0 = body
-                                  .match(
-                                    /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
-                                  )
-                                  [i].match(
-                                    /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
-                                  )[1]
-                                  .replace(/\'/g, "")
-                                  .replace(/\,/g, ", ");
-                                regExString(ob0);
-                                var msg = `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
-                                arr.push(msg);
-                                // resolve(
-                                //   sendMessage(
-                                //     senderId,
-                                //     `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
-                                //   )
-                                // );
-                              } catch {}
-                              i++;
-                              if (i < 7) {
-                                myLoop();
-                              }
-                            }, 1000);
+                          for (i = 0; i < 7; i++) {
+                            try {
+                              let ob0 = body
+                                .match(
+                                  /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)<\/td>/g
+                                )
+                                [i].match(
+                                  /<td\sonmouseover\=\"ddrivetip\(([\s\S]*?)\,'','420'/
+                                )[1]
+                                .replace(/\'/g, "")
+                                .replace(/\,/g, ", ");
+                              regExString(ob0);
+                              let msg = `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`;
+                              arr.push(msg);
+                              // resolve(
+                              //   sendMessage(
+                              //     senderId,
+                              //     `${dayy} ${timestart}-${timeend}:${subj}, Phòng: ${room}`
+                              //   )
+                              // );
+                            } catch {}
                           }
-                          myLoop();
                         }
+                        resolve(sendMessage(senderId, arr));
                       });
-                      sendMessage(senderId, msg);
                     }
                     await getname();
                     await delay(500);
