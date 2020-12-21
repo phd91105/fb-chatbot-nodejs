@@ -76,8 +76,8 @@ app.post("/webhook", function (req, res) {
             function bypassCaptcha() {
               var options = {
                 method: "POST",
-                url:
-                  "http://daotao.hutech.edu.vn/Default.aspx?page=xacthuctrangchu",
+                url: "http://daotao.hutech.edu.vn/Default.aspx",
+                qs: { page: "xacthuctrangchu" },
                 headers: {
                   Cookie: "ASP.NET_SessionId=hen5hx45sdymbxzufifr5f45",
                 },
